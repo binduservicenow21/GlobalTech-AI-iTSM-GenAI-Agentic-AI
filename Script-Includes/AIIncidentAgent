@@ -1,0 +1,64 @@
+var AIIncidentAgent = Class.create();
+AIIncidentAgent.prototype = {
+    initialize: function() {
+		this.agentName = 'AI Incident Triage Agent';
+},
+analyze: function(requestText){
+	var result = {
+		success: true,
+		agent:this.agentName,
+		category:'inquiry',
+		priority:'4',
+		recommendation: '',
+		troubleshootong: '',
+		confidence: 0.70
+	};
+	if (!requestText){
+		result.success = false;
+		result.message = 'Request text is required.';
+		return result;
+	}
+	var text = requestText.toLowerCase();
+	if (text.indexOf('vpn') >= 0 ||
+	    text.indexOf('network') >= 0 ||
+		text.indexOf('wifi') >= 0 ||
+		text.indexOf('internet') >= 0){
+			result.category = 'network';
+			result.priority = '2';
+			result.recommendation = 'Investigate VPN or network connectivity issues.';
+			result.troubleshooting = 'check VPN connectivity, network access, authentication and connectivity logs.';
+			result.confidence = 0.95;
+		}  else if (text.indexOf('laptop') >= 0 ||
+		          text.indexOf('keyboard') >= 0 ||
+				  text.indexOf('hardware') >= 0 ){
+					result.category = 'hardware';
+					result.priority = '3';
+					result.recommendation = 'Investigate the reported hardware issue.';
+					result.troubleshooting = 'Check device status, physical connections and hardware diagnostics.';
+					result.confidence = 0.90;
+				  } else if (text.indexOf('password') >= 0 ||
+				            text.indexOf('login') >= 0 ||
+							text.indexOf ('access') >= 0){
+								  
+					result.category = 'software';
+					result.priority = '3';
+					result.recommendation = 'Investigate authentication or access issues.';
+					result.troubleshooting = 'Verify account status, credentials and access permissions.';
+					result.confidence = 0.90;
+				  } else if (text.indexOf('email') >=0 ||
+				            text.indexOf('outlook') >=0) {
+								result.category = 'software';
+								result.priority = '3';
+								result.recommendation = 'Investigate email service availability.';
+								result.troubleshooting = 'Check mailbox access, email service status and outlook connectivity.';
+								result.confidence = 0.60;
+							} else {
+								result.recommendation = 'Manual investigation is recommended.';
+								result.troubleshooting = 'Collect additional information from the employee.';
+								result.confidence = 0.60;
+							}
+							return result;
+},
+
+    type: 'AIIncidentAgent'
+};
