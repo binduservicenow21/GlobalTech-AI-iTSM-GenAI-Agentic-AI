@@ -1,0 +1,529 @@
+var AIExecutionDispatcher = Class.create();
+
+AIExecutionDispatcher.prototype = {
+
+initialize: function() {
+},
+
+dispatchExecution: function(executionSysId) {
+
+var result = {};
+
+var execution = new GlideRecord(
+'x_78515_globalte_0_ai_execution'
+);
+
+if (!execution.get(executionSysId)) {
+return {
+success: false,
+message: 'AI Execution not found'
+};
+}
+
+if (execution.getValue('execution_status') != 'queued') {
+return {
+success: false,
+message: 'Execution is not in Queued status'
+};
+}
+
+var agentId = execution.getValue('ai_agent');
+var requestId = execution.getValue('ai_request');
+
+var agent = new GlideRecord(
+'x_78515_globalte_0_ai_agent'
+);
+
+if (!agent.get(agentId)) {
+return {
+success: false,
+message: 'AI Agent not found'
+};
+}
+
+if (agent.getValue('active') != '1') {
+return {
+success: false,
+message: 'AI Agent is inactive. Raw value: ' +
+agent.getValue('active')
+};
+}
+
+var request = new GlideRecord(
+'x_78515_globalte_0_ai_request'
+);
+
+if (!request.get(requestId)) {
+return {
+success: false,
+message: 'AI Request not found'
+};
+}
+
+var agentCode = agent.getValue('agent_code');
+var requestText = request.getValue('request_text');
+
+// MARK EXECUTION AS RUNNING
+execution.setValue('execution_status', 'running');
+execution.setValue('start_time', new GlideDateTime());
+execution.update();
+
+try {
+
+var auditService = new AIAuditService();
+
+// AUDIT: EXECUTION STARTED
+auditService.logAction({
+executionId: execution.getUniqueValue(),
+agentName: agent.getValue('agent_name'),
+actionType: 'analysis',
+targetTable: 'x_78515_globalte_0_ai_request',
+targetRecord: request.getUniqueValue(),
+beforeValue: 'queued',
+afterValue: 'running',
+result: 'success'
+});
+
+// AGENT 1: INCIDENT TRIAGE
+if (agentCode == 'incident_triage') {
+
+var incidentAgent = new AIIncidentAgent();
+
+result = incidentAgent.analyze(requestText);
+
+}
+
+// AGENT 2: KNOWLEDGE RESEARCH
+else if (agentCode == 'knowledge_research') {
+
+var knowledgeAgent = new AIKnowledgeAgent();
+
+result = knowledgeAgent.searchKnowledge(requestText);
+
+}
+
+// AGENT 3: PROBLEM INVESTIGATION
+else if (agentCode == 'problem_investigation') {
+
+var relatedIncidentId =
+request.getValue('related_incident');
+
+if (!relatedIncidentId) {
+throw 'Related Incident is required for Problem Investigation';
+}
+
+var incident = new GlideRecord('incident');
+
+if (!incident.get(relatedIncidentId)) {
+throw 'Related Incident record not found';
+}
+
+var category = incident.getValue('category');
+var ciSysId = incident.getValue('cmdb_ci');
+
+if (!category || !ciSysId) {
+throw 'Incident Category and Configuration Item are required';
+}
+
+var problemAgent = new AIProblemAgent();
+
+result = problemAgent.analyzeRecurringIncidents(
+category,
+ciSysId
+);
+
+}
+
+// AGENT 4: CHANGE RISK ASSESSMENT
+else if (agentCode == 'change_risk_assessment') {
+
+var changeId = request.getValue('related_change');
+
+if (!changeId) {
+throw 'Related Change Request is required';
+}
+
+var change = new GlideRecord('change_request');
+
+if (!change.get(changeId)) {
+throw 'Change Request not found';
+}
+
+var changeType = change.getValue('type');
+var impact = change.getValue('impact');
+
+var outageExpected = change.getValue(
+'x_78515_globalte_0_outage_expected'
+);
+
+var hasBackoutPlan = change.getValue(
+'x_78515_globalte_0_has_backout_plan'
+);
+
+if (!changeType || !impact) {
+throw 'Change Type and Impact are required';
+}
+
+var changeAgent = new AIChangeAgent();
+
+result = changeAgent.assesChange(
+changeType,
+impact,
+outageExpected,
+hasBackoutPlan
+);
+
+}
+
+// AGENT 5: GOVERNANCE
+else if (agentCode == 'governance') {
+
+var governanceEngine = new AIGovernanceEngine();
+
+var actionName = request.getValue('request_text');
+var confidence = 0.95;
+var agentSysId = agent.getUniqueValue();
+
+result = governanceEngine.evaluate(
+actionName,
+agentSysId,
+confidence
+);
+
+}
+
+else {
+throw 'Currently unsupported agent code: ' + agentCode;
+}
+
+// CREATE INCIDENT AI RECOMMENDATION
+if (agentCode == 'incident_triage' &&
+result && result.success === true) {
+
+var incidentRecommendation = new GlideRecord(
+'x_78515_globalte_0_ai_recommendation'
+);
+
+incidentRecommendation.initialize();
+
+incidentRecommendation.setValue(
+'recommendation_id',
+'AI-REC-INC-' +
+new GlideDateTime().getNumericValue()
+);
+
+incidentRecommendation.setValue(
+'related_execution',
+execution.getUniqueValue()
+);
+
+var relatedIncidentForRecommendation =
+request.getValue('related_incident');
+
+if (relatedIncidentForRecommendation) {
+incidentRecommendation.setValue(
+'related_incident',
+relatedIncidentForRecommendation
+);
+}
+
+incidentRecommendation.setValue(
+'recommendation_type',
+'classification'
+);
+
+incidentRecommendation.setValue(
+'recommendation',
+result.recommendation ||
+result.message ||
+JSON.stringify(result)
+);
+
+incidentRecommendation.setValue(
+'suggested_category',
+result.category
+);
+
+incidentRecommendation.setValue(
+'suggested_priority',
+result.priority
+);
+
+incidentRecommendation.setValue(
+'confidence_score',
+result.confidence
+);
+
+incidentRecommendation.setValue(
+'recommendation_status',
+'new'
+);
+
+var incidentRecommendationId =
+incidentRecommendation.insert();
+
+if (!incidentRecommendationId) {
+throw 'Failed to create Incident AI Recommendation';
+}
+
+gs.info(
+'Incident AI Recommendation created: ' +
+incidentRecommendationId
+);
+}
+
+// CREATE KNOWLEDGE AI RECOMMENDATION
+if (agentCode == 'knowledge_research' &&
+result &&
+result.success === true &&
+result.matched === true) {
+
+var knowledgeRecommendation = new GlideRecord(
+'x_78515_globalte_0_ai_recommendation'
+);
+
+knowledgeRecommendation.initialize();
+
+knowledgeRecommendation.setValue(
+'recommendation_id',
+'AI-REC-KNOW-' +
+new GlideDateTime().getNumericValue()
+);
+
+knowledgeRecommendation.setValue(
+'related_execution',
+execution.getUniqueValue()
+);
+
+var relatedKnowledgeIncident =
+request.getValue('related_incident');
+
+if (relatedKnowledgeIncident) {
+knowledgeRecommendation.setValue(
+'related_incident',
+relatedKnowledgeIncident
+);
+}
+
+knowledgeRecommendation.setValue(
+'recommendation_type',
+'resolution'
+);
+
+knowledgeRecommendation.setValue(
+'recommendation',
+'Knowledge Article: ' +
+result.knowledgeTitle +
+'\n\n' +
+result.knowledgeContent
+);
+
+knowledgeRecommendation.setValue(
+'confidence_score',
+result.confidence
+);
+
+knowledgeRecommendation.setValue(
+'recommendation_status',
+'new'
+);
+
+var knowledgeRecommendationId =
+knowledgeRecommendation.insert();
+
+if (!knowledgeRecommendationId) {
+throw 'Failed to create Knowledge AI Recommendation';
+}
+
+gs.info(
+'Knowledge AI Recommendation created: ' +
+knowledgeRecommendationId
+);
+}
+
+// CREATE PROBLEM AI RECOMMENDATION
+if (agentCode == 'problem_investigation' &&
+result &&
+result.success === true &&
+result.recommendProblem === true) {
+
+var recommendation = new GlideRecord(
+'x_78515_globalte_0_ai_recommendation'
+);
+
+recommendation.initialize();
+
+recommendation.setValue(
+'recommendation_id',
+'AI-REC-PROBLEM-' +
+new GlideDateTime().getNumericValue()
+);
+
+recommendation.setValue(
+'related_execution',
+execution.getUniqueValue()
+);
+
+recommendation.setValue(
+'related_incident',
+request.getValue('related_incident')
+);
+
+recommendation.setValue(
+'recommendation_type',
+'problem'
+);
+
+recommendation.setValue(
+'recommendation',
+result.recommendation
+);
+
+recommendation.setValue(
+'suggested_category',
+result.category
+);
+
+recommendation.setValue(
+'confidence_score',
+result.confidence
+);
+
+recommendation.setValue(
+'recommendation_status',
+'new'
+);
+
+var recommendationId = recommendation.insert();
+
+if (!recommendationId) {
+throw 'Failed to create Problem AI Recommendation';
+}
+
+gs.info(
+'Problem AI Recommendation created: ' +
+recommendationId
+);
+}
+
+// DETERMINE FINAL EXECUTION STATUS
+var finalStatus = 'completed';
+
+if (result && result.approvalRequired === true) {
+finalStatus = 'waiting_for_approval';
+}
+
+execution.get(executionSysId);
+
+execution.setValue(
+'output_data',
+JSON.stringify(result)
+);
+
+execution.setValue(
+'execution_status',
+finalStatus
+);
+
+execution.setValue(
+'end_time',
+new GlideDateTime()
+);
+
+execution.setValue('error_message', '');
+
+execution.update();
+
+// AUDIT: EXECUTION RESULT
+try {
+
+auditService.logAction({
+executionId: executionSysId,
+agentName: agent.getValue('agent_name'),
+actionType: 'analysis',
+targetTable: 'x_78515_globalte_0_ai_request',
+targetRecord: request.getUniqueValue(),
+beforeValue: 'running',
+afterValue: finalStatus,
+result: finalStatus == 'completed' ?
+'success' : 'pending'
+});
+
+} catch (auditError) {
+
+gs.error(
+'AI completion audit failed: ' +
+String(auditError)
+);
+
+}
+
+return {
+success: true,
+message: 'AI Agent executed successfully',
+agentCode: agentCode,
+executionStatus: finalStatus,
+result: result
+};
+
+} catch (error) {
+
+execution.get(executionSysId);
+
+execution.setValue('execution_status', 'failed');
+
+execution.setValue(
+'error_message',
+String(error)
+);
+
+execution.setValue(
+'end_time',
+new GlideDateTime()
+);
+
+execution.update();
+
+// AUDIT: EXECUTION FAILED
+try {
+
+var failureAudit = new AIAuditService();
+
+failureAudit.logAction({
+executionId: executionSysId,
+agentName: agent.getValue('agent_name'),
+actionType: 'execution_failed',
+targetTable: 'x_78515_globalte_0_ai_request',
+targetRecord: request.getUniqueValue(),
+beforeValue: 'running',
+afterValue: 'failed',
+result: 'failure'
+});
+
+} catch (auditError) {
+
+gs.error(
+'AI failure audit failed: ' +
+String(auditError)
+);
+
+}
+
+return {
+success: false,
+message: String(error),
+agentCode: agentCode
+};
+}
+},
+
+type: 'AIExecutionDispatcher'
+};
+
+
+
+
+
+
+
+
