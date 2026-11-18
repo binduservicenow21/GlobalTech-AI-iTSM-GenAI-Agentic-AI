@@ -97,3 +97,18 @@ ServiceNow Developer Portfolio Project
 
 # Project: GlobalTech AI ITSM – GenAI & Agentic AI
 
+📸 Project Screenshots
+1. Application and Modules
+2. AI Agents
+3. AI Executions
+4. AI Recommendations
+5. AI Approvals
+6. AI Audit Logs
+7. GlobalTech AI ITSM Dashboard
+8. Employee Access Validation
+Employee A – Own Requests Only
+
+Employee B – Own Requests Only
+
+
+
