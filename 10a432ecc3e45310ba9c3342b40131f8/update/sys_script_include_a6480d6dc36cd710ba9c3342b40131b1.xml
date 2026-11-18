@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIOrchestrator</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIOrchestrator</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIOrchestrator = Class.create();
+AIOrchestrator.prototype = {
+initialize: function() {
+		this.LOG_PREFIX = '[GlobalTech AI] ';
+},
+processRequest: function(requestId) {
+	var result = {
+		success: false,
+		requestId: requestId,
+		message: '',
+		agents: [],
+		executionCount: 0
+	};
+	if (!requestId) {
+		result.message = 'AI Request ID is required.';
+		return result; 
+	}
+	var request = new GlideRecord('x_78515_globalte_0_ai_request');
+
+	if(!request.get(requestId)) {
+		result.message = 'AI Request not found.';
+		return result;
+	}
+	if (request.getValue('ai_status') != 'new'){
+		result.message = 'Request is not in New status.';
+		return result;
+	}
+	request.setValue('ai_status', 'processing');
+	request.update();
+
+	var agent = new GlideRecord('x_78515_globalte_0_ai_agent');
+	    agent.addQuery('active', true);
+		agent.orderBy('agent_name');
+		agent.query();
+		while(agent.next()) {
+			var execution = new GlideRecord('x_78515_globalte_0_ai_execution');
+		
+	execution.initialize();
+	execution.setValue('execution_id', gs.generateGUID());
+	execution.setValue('ai_request', requestId);
+	execution.setValue('ai_agent', agent.getUniqueValue());
+	execution.setValue('execution_status', 'queued');
+	execution.setValue('input_data', request.getValue('request_text') || '');
+	
+	var executionId = execution.insert();
+
+	if (executionId) {
+		result.executionCount++;
+		result.agents.push({
+			name: agent.getValue('agent_name'),
+			executionId: executionId.tostring(),
+			status: 'queued'
+		});
+	}
+
+}
+var auditService = new AIAuditService();
+ var auditResult = auditService.logAction({
+	agentName: 'AI Orchestrator',
+	actionType: 'analysis',
+	targetTable: 'x_78515_globalte_0_ai_request',
+	targetRecord: requestId,
+	beforeValue: 'AI Status: new',
+	afterValue: 'AI Status: processing',
+	result: 'success'
+ });
+ result.success = true;
+ result.message = 'AI Request processed. Execution records created: ' +
+                  result.executionCount;
+				  if (!auditResult.success) {
+					gs.error(this.LOG_PREFIX + 'Audit logging failed: ' + 
+					          auditResult.message);
+				  }
+return result;
+},
+	type: 'AIOrchestrator'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-14 03:04:29</sys_created_on>
+        <sys_id>a6480d6dc36cd710ba9c3342b40131b1</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>AIOrchestrator</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_a6480d6dc36cd710ba9c3342b40131b1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-15 13:00:42</sys_updated_on>
+    </sys_script_include>
+</record_update>

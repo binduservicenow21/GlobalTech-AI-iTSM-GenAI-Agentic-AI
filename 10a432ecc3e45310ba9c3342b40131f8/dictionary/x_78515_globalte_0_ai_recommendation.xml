@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="72ee5ff0c368d310ba9c3342b4013154" label="AI Recommendation" max_length="40" name="x_78515_globalte_0_ai_recommendation" type="collection">
+        <element label="Recommendation ID" max_length="100" name="recommendation_id" type="string"/>
+        <element label="Confidence Score" max_length="20" name="confidence_score" type="decimal"/>
+        <element label="Suggested Group" max_length="32" name="suggested_group" reference="sys_user_group" type="reference"/>
+        <element choice="1" label="Suggested Category" max_length="40" name="suggested_category" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Software" value="software"/>
+                <element inactive_on_update="false" label="Hardware" value="hardware"/>
+                <element inactive_on_update="false" label="Inquiry/Help" value="inquiry"/>
+                <element inactive_on_update="false" label="Network" value="network"/>
+                <element inactive_on_update="false" label="Database" value="database"/>
+            </choice>
+        </element>
+        <element label="Related Incident" max_length="32" name="related_incident" reference="incident" type="reference"/>
+        <element choice="1" label="Recommendation Status" max_length="40" name="recommendation_status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Rejected" value="rejected"/>
+                <element inactive_on_update="false" label="Pending Review" value="pending_review"/>
+                <element inactive_on_update="false" label="Applied" value="applied"/>
+                <element inactive_on_update="false" label="Accepted" value="accepted"/>
+                <element inactive_on_update="false" label="New" value="new"/>
+            </choice>
+        </element>
+        <element label="Recommendation" max_length="4000" name="recommendation" type="string"/>
+        <element label="Related Execution" max_length="32" name="related_execution" reference="x_78515_globalte_0_ai_execution" type="reference"/>
+        <element choice="1" label="Recommendation Type" max_length="40" name="recommendation_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Assignment" value="assignment"/>
+                <element inactive_on_update="false" label="Resolution" value="resolution"/>
+                <element inactive_on_update="false" label="Problem" value="problem"/>
+                <element inactive_on_update="false" label="Change Risk" value="change_risk"/>
+                <element inactive_on_update="false" label="Classifcation" value="classification"/>
+            </choice>
+        </element>
+        <element choice="1" label="Suggested Priority" max_length="40" name="suggested_priority" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Low" value="4"/>
+                <element inactive_on_update="false" label="planning" value="5"/>
+                <element inactive_on_update="false" label="Critical" value="1"/>
+                <element inactive_on_update="false" label="Moderate" value="3"/>
+                <element inactive_on_update="false" label="High" value="2"/>
+            </choice>
+        </element>
+        <index name="index">
+            <element name="related_execution"/>
+        </index>
+        <index name="index2">
+            <element name="related_incident"/>
+        </index>
+        <index name="index3">
+            <element name="suggested_group"/>
+        </index>
+    </element>
+</database>

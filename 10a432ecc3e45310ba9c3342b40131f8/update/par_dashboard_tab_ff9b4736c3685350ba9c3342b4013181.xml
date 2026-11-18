@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="par_dashboard_tab">
+    <par_dashboard_tab action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <background_color/>
+        <dashboard display_value="GlobalTech AI ITSM Dashboard">e39b0736c3685350ba9c3342b4013150</dashboard>
+        <name>New Tab 2</name>
+        <order>0</order>
+        <sys_class_name>par_dashboard_tab</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-18 09:47:45</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>ff9b4736c3685350ba9c3342b4013181</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>New Tab 2</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>par_dashboard_tab_ff9b4736c3685350ba9c3342b4013181</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-18 09:47:45</sys_updated_on>
+    </par_dashboard_tab>
+</record_update>

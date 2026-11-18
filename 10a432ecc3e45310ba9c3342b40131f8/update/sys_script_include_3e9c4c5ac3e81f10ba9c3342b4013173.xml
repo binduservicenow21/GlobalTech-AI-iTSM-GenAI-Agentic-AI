@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIActionExecutor</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIActionExecutor</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIActionExecutor = Class.create();
+
+AIActionExecutor.prototype = {
+
+initialize: function() {
+},
+
+simulateApprovedAction: function(executionSysId) {
+
+var response = {
+success: false,
+message: ''
+};
+
+// Retrieve AI Execution
+var execution = new GlideRecord(
+'x_78515_globalte_0_ai_execution'
+);
+
+if (!execution.get(executionSysId)) {
+response.message = 'Execution not found.';
+return response;
+}
+
+// Validate execution status
+if (execution.getValue('execution_status') !=
+'waiting_for_approval') {
+
+response.message =
+'Execution is not waiting for approval.';
+return response;
+}
+
+// Retrieve approved AI Approval
+var approval = new GlideRecord(
+'x_78515_globalte_0_ai_approval'
+);
+
+approval.addQuery(
+'related_execution',
+executionSysId
+);
+
+approval.addQuery('approval_status', 'approved');
+approval.query();
+
+if (!approval.next()) {
+response.message =
+'No approved approval record found.';
+return response;
+}
+
+var action = approval.getValue('requested_action') || '';
+var normalizedAction = action.toLowerCase();
+
+var output = execution.getValue('output_data') || '';
+
+// DELETE INCIDENT SIMULATION
+if (normalizedAction == 'delete_incident') {
+
+output += '\nACTION SIMULATION: delete_incident';
+output += '\nManager approval verified.';
+output += '\nNo incident was deleted.';
+output += '\nSimulation completed successfully.';
+
+}
+
+// CHANGE APPROVAL SIMULATION
+else if (
+normalizedAction.indexOf('change risk assessment') != -1
+) {
+
+output += '\nCHANGE APPROVAL SIMULATION';
+output += '\nRequested Action: ' + action;
+output += '\nManager approval verified.';
+output += '\nChange approval verified.';
+output += '\nNo actual Change Request was modified.';
+output += '\nSimulation completed successfully.';
+
+}
+
+else {
+
+response.message =
+'Action is not enabled for simulation: ' + action;
+
+return response;
+}
+
+// Update execution
+execution.setValue('output_data', output);
+execution.setValue('execution_status', 'completed');
+execution.setValue('end_time', new GlideDateTime());
+
+execution.update();
+
+// CREATE FINAL AI AUDIT LOG
+try {
+
+var auditDetails = {
+executionId: executionSysId,
+agentName: execution.getDisplayValue('ai_agent'),
+actionType: 'action_simulated',
+targetTable: 'x_78515_globalte_0_ai_approval',
+targetRecord: approval.getUniqueValue(),
+beforeValue: 'waiting_for_approval',
+afterValue: 'completed',
+result: 'success'
+};
+
+var auditResult = new AIAuditService()
+.logAction(auditDetails);
+
+gs.info(
+'AI Governance Simulation Audit Created: ' +
+JSON.stringify(auditResult)
+);
+
+response.auditLogged = true;
+
+} catch (auditError) {
+
+gs.error(
+'AI Simulation Audit Error: ' +
+auditError.message
+);
+
+response.auditLogged = false;
+}
+
+response.success = true;
+
+response.message =
+'Approved action simulated successfully. ' +
+'No actual Incident or Change Request was modified.';
+
+return response;
+},
+
+type: 'AIActionExecutor'
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-16 06:36:52</sys_created_on>
+        <sys_id>3e9c4c5ac3e81f10ba9c3342b4013173</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>AIActionExecutor</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_3e9c4c5ac3e81f10ba9c3342b4013173</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-18 08:44:35</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="action_type" table="x_78515_globalte_0_ai_audit_log" version="3">
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>action_type</element>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:59:20</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>action_type</sys_name>
+            <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+            <sys_update_name>sys_choice_x_78515_globalte_0_ai_audit_log_action_type</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:59:20</sys_updated_on>
+        </sys_choice_set>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Action Simulated</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-18 08:39:07</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-18 08:39:20</sys_updated_on>
+            <value>action_simulated</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Analysis</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:59:20</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:59:30</sys_updated_on>
+            <value>analysis</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Approval Granted</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 07:01:23</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:01:37</sys_updated_on>
+            <value>approval_granted</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Approval Rejected</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 07:01:53</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:02:07</sys_updated_on>
+            <value>approval_rejected</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Approval Requested</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 07:00:24</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:00:41</sys_updated_on>
+            <value>approved_requested</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Execution Failed</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 07:03:42</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:04:05</sys_updated_on>
+            <value>execution_failed</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Recommendation</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:59:56</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:00:08</sys_updated_on>
+            <value>recommendation</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Record Created</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 07:03:09</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:03:26</sys_updated_on>
+            <value>record_created</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Record Updated</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 07:02:38</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 07:02:54</sys_updated_on>
+            <value>record_updated</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>action_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Retry Attempt</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_audit_log</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-17 19:42:56</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-17 19:43:14</sys_updated_on>
+            <value>retry_attempt</value>
+        </sys_choice>
+    </sys_choice>
+</record_update>

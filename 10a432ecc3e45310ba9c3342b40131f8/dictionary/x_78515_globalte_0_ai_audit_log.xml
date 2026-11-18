@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="180ae778c3a8d310ba9c3342b4013131" label="AI Audit Log" max_length="40" name="x_78515_globalte_0_ai_audit_log" type="collection">
+        <element label="Agent Name" max_length="100" name="agent_name" type="string"/>
+        <element choice="1" label="Action Type" max_length="40" name="action_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Retry Attempt" value="retry_attempt"/>
+                <element inactive_on_update="false" label="Recommendation" value="recommendation"/>
+                <element inactive_on_update="false" label="Approval Rejected" value="approval_rejected"/>
+                <element inactive_on_update="false" label="Action Simulated" value="action_simulated"/>
+                <element inactive_on_update="false" label="Approval Granted" value="approval_granted"/>
+                <element inactive_on_update="false" label="Approval Requested" value="approved_requested"/>
+                <element inactive_on_update="false" label="Execution Failed" value="execution_failed"/>
+                <element inactive_on_update="false" label="Record Updated" value="record_updated"/>
+                <element inactive_on_update="false" label="Analysis" value="analysis"/>
+                <element inactive_on_update="false" label="Record Created" value="record_created"/>
+            </choice>
+        </element>
+        <element label="Target Record" max_length="100" name="target_record" type="string"/>
+        <element label="Target Table" max_length="100" name="target_table" type="string"/>
+        <element choice="1" label="Result" max_length="40" name="result" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Skipped" value="skipped"/>
+                <element inactive_on_update="false" label="Pending" value="pending"/>
+                <element inactive_on_update="false" label="Failure" value="failure"/>
+                <element inactive_on_update="false" label="Success" value="success"/>
+            </choice>
+        </element>
+        <element label="Related Execution" max_length="32" name="related_execution" reference="x_78515_globalte_0_ai_execution" type="reference"/>
+        <element label="Before Value" max_length="4000" name="before_value" type="string"/>
+        <element label="After Value" max_length="4000" name="after_value" type="string"/>
+        <index name="index">
+            <element name="related_execution"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_embedded_help_role">
+    <sys_embedded_help_role action="INSERT_OR_UPDATE">
+        <order>100</order>
+        <role display_value="x_78515_globalte_0.manager" name="x_78515_globalte_0.manager">dc211505c3a41710ba9c3342b40131b5</role>
+        <sys_class_name>sys_embedded_help_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-12 14:23:39</sys_created_on>
+        <sys_id>ba31ddc1c3a41710ba9c3342b401317a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>dc211505c3a41710ba9c3342b40131b5</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_embedded_help_role_ba31ddc1c3a41710ba9c3342b401317a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-12 14:23:39</sys_updated_on>
+    </sys_embedded_help_role>
+</record_update>

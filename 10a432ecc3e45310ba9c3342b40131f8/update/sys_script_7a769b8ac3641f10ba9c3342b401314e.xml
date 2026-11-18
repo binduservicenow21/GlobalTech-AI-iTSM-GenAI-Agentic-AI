@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>false</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_78515_globalte_0_ai_execution</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition table="x_78515_globalte_0_ai_execution">execution_statusCHANGESTOwaiting_for_approval^EQ<item display_value="Waiting for Approval" endquery="false" field="execution_status" goto="false" newquery="false" operator="CHANGESTO" or="false" value="waiting_for_approval"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter_condition>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Create AI Approval</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+// Get the executing AI Agent
+var agent = current.ai_agent.getRefRecord();
+
+if (!agent.isValidRecord()) {
+gs.error('AI Approval: Agent not found.');
+return;
+}
+
+var agentCode = agent.getValue('agent_code');
+
+// Support Governance and Change Risk Assessment agents
+if (agentCode != 'governance' &&
+agentCode != 'change_risk_assessment') {
+return;
+}
+
+// Read execution output
+var output = current.getValue('output_data');
+
+if (!output) {
+gs.error('AI Approval: Output data is empty.');
+return;
+}
+
+var result;
+
+try {
+result = JSON.parse(output);
+} catch (e) {
+gs.error('AI Approval: Invalid JSON: ' + e.message);
+return;
+}
+
+// Confirm approval is required
+if (result.approvalRequired !== true) {
+gs.info('AI Approval: Approval not required.');
+return;
+}
+
+// Prevent duplicate approvals
+var existing = new GlideRecord(
+'x_78515_globalte_0_ai_approval'
+);
+
+existing.addQuery(
+'related_execution',
+current.getUniqueValue()
+);
+existing.query();
+
+if (existing.next()) {
+gs.info('AI Approval already exists.');
+return;
+}
+
+// Determine requested action and risk
+var requestedAction = 'AI action approval';
+var riskLevel = result.riskLevel || 'high';
+
+if (agentCode == 'change_risk_assessment') {
+requestedAction =
+'Change Risk Assessment - ' +
+(result.changeType || 'Change') +
+' change approval';
+
+riskLevel = (result.riskLevel || 'high').toLowerCase();
+
+} else {
+requestedAction = result.action || 'AI action approval';
+}
+
+// Create AI Approval
+var approval = new GlideRecord(
+'x_78515_globalte_0_ai_approval'
+);
+
+approval.initialize();
+
+approval.setValue('approval_id', gs.generateGUID());
+approval.setValue(
+'related_execution',
+current.getUniqueValue()
+);
+approval.setValue('requested_action', requestedAction);
+approval.setValue('risk_level', riskLevel);
+approval.setValue('approval_status', 'requested');
+
+var approvalSysId = approval.insert();
+
+if (approvalSysId) {
+
+gs.info(
+'AI Approval created for ' +
+agentCode +
+'. Sys ID: ' +
+approvalSysId
+);
+
+var auditService = new AIAuditService();
+
+auditService.logAction({
+executionId: current.getUniqueValue(),
+agentName: agent.getValue('agent_name'),
+actionType: 'approval_requested',
+targetTable: 'x_78515_globalte_0_ai_approval',
+targetRecord: approvalSysId,
+beforeValue: '',
+afterValue: 'requested',
+result: 'success'
+});
+
+} else {
+gs.error('AI Approval creation failed.');
+}
+
+})(current, previous);
+
+
+
+
+]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-16 02:44:41</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>7a769b8ac3641f10ba9c3342b401314e</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>Create AI Approval</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_7a769b8ac3641f10ba9c3342b401314e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-18 02:17:59</sys_updated_on>
+        <template/>
+        <when>after</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=7a769b8ac3641f10ba9c3342b401314e"/>
+</record_update>

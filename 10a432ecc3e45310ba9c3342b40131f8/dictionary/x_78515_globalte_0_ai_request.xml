@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="caf7b264c3285310ba9c3342b4013100" label="AI Request" max_length="40" name="x_78515_globalte_0_ai_request" type="collection">
+        <element choice="1" label="AI Status" max_length="40" name="ai_status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Completed" value="completed"/>
+                <element inactive_on_update="false" label="Pending Approval" value="pending_approval"/>
+                <element inactive_on_update="false" label="New" value="new"/>
+                <element inactive_on_update="false" label="Processing" value="processing"/>
+                <element inactive_on_update="false" label="Failed" value="failed"/>
+            </choice>
+        </element>
+        <element label="Request Text" mandatory="true" max_length="4000" name="request_text" type="string"/>
+        <element choice="1" label="Request Type" mandatory="true" max_length="40" name="request_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="General IT Support" value="general_it_support"/>
+                <element inactive_on_update="false" label="Incident" value="incident"/>
+                <element inactive_on_update="false" label="Problem" value="problem"/>
+                <element inactive_on_update="false" label="Change" value="change"/>
+            </choice>
+        </element>
+        <element label="Related Change" max_length="32" name="related_change" reference="change_request" type="reference"/>
+        <element label="AI summary" max_length="4000" name="ai_summary" type="string"/>
+        <element label="Related Incident" max_length="32" name="related_incident" reference="incident" type="reference"/>
+        <element label="Requested By" mandatory="true" max_length="32" name="requested_by" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="related_change"/>
+        </index>
+        <index name="index2">
+            <element name="related_incident"/>
+        </index>
+        <index name="index3">
+            <element name="requested_by"/>
+        </index>
+    </element>
+</database>

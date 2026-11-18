@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIProblemAgent</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIProblemAgent</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIProblemAgent = Class.create();
+AIProblemAgent.prototype = {
+    initialize: function() {
+		this.agentName = 'AI Problem Investigation Agent';
+		},
+		analyzeRecurringIncidents: function(category, ciSysId){
+			var result = {
+				success: true,
+				agent: this.agentName,
+				category: category,
+				configurationItem: ciSysId,
+				incidentCount: 0,
+				recommendProblem: false,
+				recommendation: '',
+				confidence: 0
+			};
+			if (!category || !ciSysId){
+				result.success = false;
+				result.message = 'Category and Configuration Item are required.';
+				return result;
+				}
+				var incidents = new GlideAggregate('incident');
+				incidents.addQuery('category', category);
+				incidents.addQuery('cmdb_ci', ciSysId);
+				incidents.addQuery('sys_created_on','>=',gs.daysAgoStart(7));
+				incidents.addAggregate('COUNT');
+				incidents.query();
+
+				if (incidents.next()){
+					result.incidentCount = parseInt(incidents.getAggregate('COUNT'), 10) || 0;
+                }
+				if (result.incidentCount >= 3) {
+					result.recommendProblem = true;
+					result.recommendation = 'Recurring incident pattern detected.' +       'Recommend creating a problem record for investigation.';
+					result.confidence = 0.95;
+				} else {
+					result.recommendation = 'Insufficient recurring incidents to recommend' +  'Problem creation. Continue monitoring.';
+					result.confidence = 0.80;
+				}
+				return result;
+		},
+	
+
+    type: 'AIProblemAgent'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-15 02:01:35</sys_created_on>
+        <sys_id>000486f1c3209b10ba9c3342b401317c</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>AIProblemAgent</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_000486f1c3209b10ba9c3342b401317c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-15 03:00:46</sys_updated_on>
+    </sys_script_include>
+</record_update>

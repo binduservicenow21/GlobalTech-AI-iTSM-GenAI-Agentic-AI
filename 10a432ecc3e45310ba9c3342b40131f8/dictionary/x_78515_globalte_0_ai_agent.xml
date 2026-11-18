@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="b10b87bcc3a4d310ba9c3342b40131c1" label="AI Agent" max_length="40" name="x_78515_globalte_0_ai_agent" type="collection">
+        <element choice="1" label="Risk Level" max_length="40" name="risk_level" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="High" value="High"/>
+                <element inactive_on_update="false" label="Medium" value="medium"/>
+                <element inactive_on_update="false" label="Critical" value="critical"/>
+                <element inactive_on_update="false" label="Low" value="Low"/>
+            </choice>
+        </element>
+        <element label="Agent Code" mandatory="true" max_length="32" name="agent_code" type="string"/>
+        <element label="Maximum Attempts" max_length="40" name="maximum_attempts" type="integer"/>
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Agent Name" mandatory="true" max_length="44" name="agent_name" type="string"/>
+        <element label="Instructions" max_length="4000" name="instructions" type="string"/>
+        <element choice="1" label="Agent Type" max_length="40" name="agent_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Incident Triage" value="incident triage"/>
+                <element inactive_on_update="false" label="knowledge Research" value="knowledge research"/>
+                <element inactive_on_update="false" label="Gevernance" value="governance"/>
+                <element inactive_on_update="false" label="Problem Investigation" value="problem investigation"/>
+                <element inactive_on_update="false" label="Change Risk Assessment" value="change risk assessment"/>
+            </choice>
+        </element>
+        <element default="Identify the AI model" label="Model Name" max_length="200" name="model_name" type="string"/>
+    </element>
+</database>

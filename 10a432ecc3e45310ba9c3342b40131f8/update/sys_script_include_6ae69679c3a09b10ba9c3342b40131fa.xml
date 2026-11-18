@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIChangeAgent</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIChangeAgent</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIChangeAgent = Class.create();
+AIChangeAgent.prototype = {
+    initialize: function() {
+		this.agentName = 'AI Change Risk Assessment Agent';
+    },
+	assesChange: function(changeType, impact, outageExpected, hasBackoutPlan){
+		var result = {
+			success: true,
+			agent: this.agentName,
+			changeType: changeType,
+			impact: impact,
+			approvalRequired: false,
+			recommendation: '',
+			confidence: 0
+
+		};
+		if (!changeType || !impact) {
+			result.success =false;
+			result.message = 'Change type and impact are required.';
+			return result;
+     }
+	 changeType = changeType.toLowerCase();
+	 
+	 impact = impact.toLowerCase();
+	 if (impact === 'high' || outageExpected === true || hasBackoutPlan === false) {
+		result.riskLevel = 'High';
+		result.approvalRequired = true;
+		result.recommendation = 'High-risk change. Require Change Manager review,' + 'validate implementation and backout plans.';
+		result.confidence = 0.95;
+
+	 } else if (impact === 'medium' || changeType === 'normal'){
+		result.riskLevel = 'Medium';
+		result.approvalRequired = true;
+		result.recommendation = 'Medium-risk change. Review implementation plan,' +  'testing evidence and scheduled maintenance window.';
+		result.confidence = 0.90;
+
+	 } else if (changeType === 'emergency') {
+		result.riskLevel = 'Critical';
+		result.approvalRequired = true;
+		result.recommendation = 'Emergency change. Follow emergency change ' + 'approval and governance procedures.' ;
+		result.confidence = 0.95; 
+	} else {
+		result.riskLevel = 'Low';
+		result.approvalRequired = false;
+		result.recommendation = 'Low-risk change. Verify policy eligibility ' + 'before considering automatic esecution.';
+		result.confidence = 0.85;
+	}
+	return result;
+	},
+
+    type: 'AIChangeAgent'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-15 03:23:45</sys_created_on>
+        <sys_id>6ae69679c3a09b10ba9c3342b40131fa</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>AIChangeAgent</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_6ae69679c3a09b10ba9c3342b40131fa</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-15 04:00:12</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="email_client=true,hasWorkflow=true,live_feed=true" audit="true" db_object_id="ade43a3b8c5503100a22deb6dd2b4ed2" extends="task" label="Change Request" max_length="40" name="change_request" text_index="true" type="collection">
+        <element label="Has Backout Plan" max_length="40" name="x_78515_globalte_0_has_backout_plan" type="boolean"/>
+        <element label="Outage Expected" max_length="40" name="x_78515_globalte_0_outage_expected" type="boolean"/>
+    </element>
+</database>

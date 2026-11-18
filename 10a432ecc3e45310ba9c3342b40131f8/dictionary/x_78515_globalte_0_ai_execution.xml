@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="a7101f34c3e4d310ba9c3342b4013141" label="AI Execution" max_length="40" name="x_78515_globalte_0_ai_execution" type="collection">
+        <element label="Input Data" max_length="4000" name="input_data" type="string"/>
+        <element label="Retry Count" max_length="40" name="retry_count" type="integer"/>
+        <element label="AI Request" mandatory="true" max_length="32" name="ai_request" reference="x_78515_globalte_0_ai_request" type="reference"/>
+        <element label="Execution ID" mandatory="true" max_length="100" name="execution_id" type="string"/>
+        <element label="Error Message" max_length="2000" name="error_message" type="string"/>
+        <element choice="1" label="Execution Status" max_length="40" name="execution_status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Failed" value="failed"/>
+                <element inactive_on_update="false" label="Cancelled" value="cancelled"/>
+                <element inactive_on_update="false" label="Completed" value="completed"/>
+                <element inactive_on_update="false" label="Queued" value="queued"/>
+                <element inactive_on_update="false" label="Waiting for Approval" value="waiting_for_approval"/>
+                <element inactive_on_update="false" label="Running" value="running"/>
+            </choice>
+        </element>
+        <element label="Start Time" max_length="40" name="start_time" type="glide_date_time"/>
+        <element label="AI Agent" max_length="32" name="ai_agent" reference="x_78515_globalte_0_ai_agent" type="reference"/>
+        <element label="End Time" max_length="40" name="end_time" type="glide_date_time"/>
+        <element label="Output Data" max_length="4000" name="output_data" type="string"/>
+        <index name="index">
+            <element name="ai_agent"/>
+        </index>
+        <index name="index2">
+            <element name="ai_request"/>
+        </index>
+    </element>
+</database>

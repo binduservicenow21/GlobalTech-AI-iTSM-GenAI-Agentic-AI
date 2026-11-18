@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="5cf6e3f0c3a8d310ba9c3342b401313f" label="AI Approval" max_length="40" name="x_78515_globalte_0_ai_approval" type="collection">
+        <element label="Approval Comments" max_length="2000" name="approval_comments" type="string"/>
+        <element label="Requested Action" max_length="1000" name="requested_action" type="string"/>
+        <element choice="1" label="Risk Level" max_length="40" name="risk_level" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="High" value="high"/>
+                <element inactive_on_update="false" label="Medium" value="medium"/>
+                <element inactive_on_update="false" label="Low" value="low"/>
+                <element inactive_on_update="false" label="Critical" value="critical"/>
+            </choice>
+        </element>
+        <element label="Approver" max_length="32" name="approver" reference="sys_user" type="reference"/>
+        <element choice="1" label="Approval status" max_length="40" name="approval_status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Approved" value="approved"/>
+                <element inactive_on_update="false" label="Cancelled" value="cancelled"/>
+                <element inactive_on_update="false" label="Rejected" value="rejected"/>
+                <element inactive_on_update="false" label="Requested" value="requested"/>
+            </choice>
+        </element>
+        <element label="Related Execution" max_length="32" name="related_execution" reference="x_78515_globalte_0_ai_execution" type="reference"/>
+        <element label="Approval ID" max_length="100" name="approval_id" type="string"/>
+        <element label="Approved At" max_length="40" name="approved_at" type="glide_date_time"/>
+        <index name="index">
+            <element name="approver"/>
+        </index>
+        <index name="index2">
+            <element name="related_execution"/>
+        </index>
+    </element>
+</database>

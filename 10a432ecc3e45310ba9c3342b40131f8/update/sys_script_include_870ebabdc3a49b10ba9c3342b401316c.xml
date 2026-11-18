@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIAuditService</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIAuditService</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIAuditService = Class.create();
+AIAuditService.prototype = {
+    initialize: function() {
+		this.serviceName = 'GlobalTech AI Audit Service';
+    },
+	logAction: function(details) {
+		var result = {
+			success: false,
+			message: '',
+			auditId: ''
+
+		};
+		if(!details || !details.agentName || !details.actionType || !details.result){
+			result.message = 'Required audit details are missing.';
+			return result;
+		}
+		try{
+			var audit = new GlideRecord('x_78515_globalte_0_ai_audit_log');
+			audit.initialize();
+			if (details.executionId) {
+				audit.setValue('related_execution', details.executionId);
+			}
+			audit.setValue('agent_name', details.agentName);
+			audit.setValue('action_type', details.actionType);
+			audit.setValue('target_table', details.targetTable || '');
+			audit.setValue('target_record', details.targetRecord || '');
+			audit.setValue('before_value', details.beforeValue || '');
+			audit.setValue('after_value', details.afterValue || '');
+			audit.setValue('result', details.result);
+
+			var auditSysId = audit.insert();
+        if (auditSysId) {
+			result.success = true;
+			result.message = 'Audit record created.';
+			result.auditId = auditSysId.toString();
+		}  else {
+			result.message = 'Audit record could not be created.';
+		}
+
+		} catch (e) {
+			result.message = 'Audit error: ' + e.message;
+			gs.error(this.serviceName + ':' + result.message);
+		}
+		return result;
+	},
+
+    type: 'AIAuditService'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-15 06:14:52</sys_created_on>
+        <sys_id>870ebabdc3a49b10ba9c3342b401316c</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>AIAuditService</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_870ebabdc3a49b10ba9c3342b401316c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-15 07:01:25</sys_updated_on>
+    </sys_script_include>
+</record_update>

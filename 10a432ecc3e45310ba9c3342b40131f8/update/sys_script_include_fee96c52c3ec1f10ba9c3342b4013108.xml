@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIExecutionRetryManager</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIExecutionRetryManager</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIExecutionRetryManager = Class.create();
+AIExecutionRetryManager.prototype = {
+initialize: function() {
+},
+
+retryFailedExecution: function(executionSysId) {
+
+var result = {
+success: false,
+message: ''
+};
+
+// Find failed execution
+var execution = new GlideRecord(
+'x_78515_globalte_0_ai_execution'
+);
+
+if (!execution.get(executionSysId)) {
+result.message = 'Execution not found.';
+return result;
+}
+
+if (execution.getValue('execution_status') != 'failed') {
+result.message = 'Execution is not in Failed status.';
+return result;
+}
+
+// Get associated AI Agent
+var agent = execution.ai_agent.getRefRecord();
+
+if (!agent.isValidRecord()) {
+result.message = 'AI Agent not found.';
+return result;
+}
+
+var maxAttempts = parseInt(
+agent.getValue('maximum_attempts'), 10
+);
+
+if (isNaN(maxAttempts) || maxAttempts < 0) {
+result.message = 'Invalid maximum attempts configuration.';
+return result;
+}
+
+var retryCount = parseInt(
+execution.getValue('retry_count'), 10
+) || 0;
+
+// Check retry limit
+if (retryCount >= maxAttempts) {
+result.message = 'Maximum retry attempts reached.';
+return result;
+}
+
+// Store execution details
+var executionId = execution.getUniqueValue();
+var oldRetryCount = retryCount;
+
+// Increment retry count and requeue
+retryCount++;
+
+execution.setValue('retry_count', retryCount);
+execution.setValue('execution_status', 'queued');
+execution.setValue('start_time', '');
+execution.setValue('end_time', '');
+execution.update();
+
+// Create retry audit log
+var auditDetails = {
+executionId: executionId,
+agentName: agent.getValue('agent_name'),
+actionType: 'retry_attempt',
+targetTable: 'x_78515_globalte_0_ai_execution',
+targetRecord: executionId,
+beforeValue: 'failed; retry_count=' + oldRetryCount,
+afterValue: 'queued; retry_count=' + retryCount,
+result: 'success'
+};
+
+var auditResult =
+new AIAuditService().logAction(auditDetails);
+
+// Automatically dispatch execution
+var dispatchResult =
+new AIExecutionDispatcher().dispatchExecution(
+executionId
+);
+
+result.success = true;
+result.retryCount = retryCount;
+result.maximumAttempts = maxAttempts;
+result.auditCreated = auditResult &&
+auditResult.success === true;
+result.dispatchResult = dispatchResult;
+
+if (!dispatchResult || dispatchResult.success !== true) {
+result.message =
+'Retry queued and audit attempted, but dispatch failed.';
+return result;
+}
+
+result.message =
+'Retry successful. Execution dispatched automatically.';
+
+return result;
+},
+
+type: 'AIExecutionRetryManager'
+};
+
+
+
+
+
+
+
+
+
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-16 08:44:53</sys_created_on>
+        <sys_id>fee96c52c3ec1f10ba9c3342b4013108</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>AIExecutionRetryManager</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_fee96c52c3ec1f10ba9c3342b4013108</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-17 19:49:46</sys_updated_on>
+    </sys_script_include>
+</record_update>

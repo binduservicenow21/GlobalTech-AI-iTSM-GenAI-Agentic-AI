@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="recommendation_type" table="x_78515_globalte_0_ai_recommendation" version="3">
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>recommendation_type</element>
+            <name>x_78515_globalte_0_ai_recommendation</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:15:03</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>recommendation_type</sys_name>
+            <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+            <sys_update_name>sys_choice_x_78515_globalte_0_ai_recommendation_recommendation_type</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:15:03</sys_updated_on>
+        </sys_choice_set>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>recommendation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Assignment</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_recommendation</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:16:06</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:16:16</sys_updated_on>
+            <value>assignment</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>recommendation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Change Risk</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_recommendation</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:16:42</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:16:56</sys_updated_on>
+            <value>change_risk</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>recommendation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Classifcation</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_recommendation</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:15:03</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:15:15</sys_updated_on>
+            <value>classification</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>recommendation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Problem</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_recommendation</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:16:23</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:16:31</sys_updated_on>
+            <value>problem</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>recommendation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Resolution</label>
+            <language>en</language>
+            <name>x_78515_globalte_0_ai_recommendation</name>
+            <sequence/>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-11-12 06:15:35</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-11-12 06:15:52</sys_updated_on>
+            <value>resolution</value>
+        </sys_choice>
+    </sys_choice>
+</record_update>

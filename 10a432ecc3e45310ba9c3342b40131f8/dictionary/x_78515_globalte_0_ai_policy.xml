@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="82d5b005c3e01710ba9c3342b4013173" label="AI policy" max_length="40" name="x_78515_globalte_0_ai_policy" type="collection">
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Auto Execution" max_length="40" name="auto_execution" type="boolean"/>
+        <element choice="1" label="Risk Level" max_length="40" name="risk_level" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Critical" value="critical"/>
+                <element inactive_on_update="false" label="High" value="high"/>
+                <element inactive_on_update="false" label="Low" value="low"/>
+                <element inactive_on_update="false" label="Medium" value="medium"/>
+            </choice>
+        </element>
+        <element label="Description" max_length="1000" name="description" type="string"/>
+        <element label="Approval Required" max_length="40" name="approval_required" type="boolean"/>
+        <element label="Minimum Confidence" max_length="20" name="minimum_confidence" type="decimal"/>
+        <element label="Allowed Agent" max_length="32" name="allowed_agent" reference="x_78515_globalte_0_ai_agent" type="reference"/>
+        <element label="Action Name" max_length="200" name="action_name" type="string"/>
+        <index name="index">
+            <element name="allowed_agent"/>
+        </index>
+    </element>
+</database>

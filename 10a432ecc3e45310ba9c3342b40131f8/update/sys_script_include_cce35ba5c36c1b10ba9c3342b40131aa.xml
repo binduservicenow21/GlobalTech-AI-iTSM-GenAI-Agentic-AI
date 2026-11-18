@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_78515_globalte_0.AIKnowledgeAgent</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>AIKnowledgeAgent</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var AIKnowledgeAgent = Class.create();
+
+AIKnowledgeAgent.prototype = {
+
+initialize: function() {
+this.agentName = 'AI Knowledge Research Agent';
+},
+
+searchKnowledge: function(requestText) {
+
+var result = {
+success: true,
+agent: this.agentName,
+matched: false,
+knowledgeTitle: '',
+knowledgeContent: '',
+confidence: 0
+};
+
+if (!requestText) {
+result.success = false;
+result.message = 'Request text is required.';
+return result;
+}
+
+var searchText = requestText.toLowerCase();
+
+var knowledge = new GlideRecord(
+'x_78515_globalte_0_ai_knowledge_context'
+);
+
+knowledge.addQuery('active', true);
+knowledge.query();
+
+var bestScore = 0;
+var bestTitle = '';
+var bestContent = '';
+
+while (knowledge.next()) {
+
+var title = knowledge.getValue('knowledge_title') || '';
+var content = knowledge.getValue('knowledge_content') || '';
+var category = knowledge.getValue('category') || '';
+
+var combinedText = (
+title + ' ' + content + ' ' + category
+).toLowerCase();
+
+var words = searchText.split(/\s+/);
+var score = 0;
+
+for (var i = 0; i < words.length; i++) {
+
+var word = words[i].replace(/[^a-z0-9]/g, '');
+
+if (word.length > 3 &&
+combinedText.indexOf(word) >= 0) {
+score++;
+}
+}
+
+if (score > bestScore) {
+bestScore = score;
+bestTitle = title;
+bestContent = content;
+}
+}
+
+if (bestScore > 0) {
+
+result.matched = true;
+result.knowledgeTitle = bestTitle;
+result.knowledgeContent = bestContent;
+
+result.confidence = Math.min(
+0.95,
+0.60 + (bestScore * 0.10)
+);
+
+} else {
+
+result.message =
+'No matching knowledge record found. Manual review required.';
+
+result.confidence = 0.30;
+}
+
+return result;
+},
+
+type: 'AIKnowledgeAgent'
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-14 13:12:04</sys_created_on>
+        <sys_id>cce35ba5c36c1b10ba9c3342b40131aa</sys_id>
+        <sys_mod_count>12</sys_mod_count>
+        <sys_name>AIKnowledgeAgent</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_update_name>sys_script_include_cce35ba5c36c1b10ba9c3342b40131aa</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-18 04:46:53</sys_updated_on>
+    </sys_script_include>
+</record_update>

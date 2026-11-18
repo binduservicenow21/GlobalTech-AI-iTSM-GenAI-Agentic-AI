@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="DELETE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-13 04:34:13</sys_created_on>
+        <sys_id>4ee35055c3e85710ba9c3342b4013112</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>.x_78515_globalte_0.employee</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_security_acl display_value="">50b3d815c3e85710ba9c3342b401316c</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_4ee35055c3e85710ba9c3342b4013112</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-13 04:34:13</sys_updated_on>
+        <sys_user_role display_value="x_78515_globalte_0.employee" name="x_78515_globalte_0.employee">e2b059c1c3a41710ba9c3342b401310e</sys_user_role>
+    </sys_security_acl_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</application>
+        <file_path/>
+        <instance_id>dc4983d6eb658bd4e9bbfddacad0cde8</instance_id>
+        <instance_name>dev410400</instance_name>
+        <name>sys_security_acl_role_4ee35055c3e85710ba9c3342b4013112</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2026-11-13 04:34:13</sys_created_on><sys_id>4ee35055c3e85710ba9c3342b4013112</sys_id><sys_mod_count>0</sys_mod_count><sys_name>.x_78515_globalte_0.employee</sys_name><sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package><sys_policy/><sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope><sys_security_acl display_value="">50b3d815c3e85710ba9c3342b401316c</sys_security_acl><sys_update_name>sys_security_acl_role_4ee35055c3e85710ba9c3342b4013112</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2026-11-13 04:34:13</sys_updated_on><sys_user_role display_value="x_78515_globalte_0.employee" name="x_78515_globalte_0.employee">e2b059c1c3a41710ba9c3342b401310e</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+        <payload_hash>-874940670</payload_hash>
+        <record_name>.x_78515_globalte_0.employee</record_name>
+        <reverted_from/>
+        <source>58a472ecc3e45310ba9c3342b4013101</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-13 04:34:13</sys_created_on>
+        <sys_id>46e35055c3e85710ba9c3342b4013119</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1a1d32f46510000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-13 04:34:13</sys_updated_on>
+        <type>Access Roles</type>
+        <update_guid>06e350554ae8571011b1ff6f01486618</update_guid>
+        <update_guid_history>06e350554ae8571011b1ff6f01486618:-874940670</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value=".x_78515_globalte_0.employee">8de64d15c3609710ba9c3342b4013117</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-11-13 08:16:58</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl_role">sys_security_acl_role</sys_db_object>
+        <sys_id>630bd2e586894104a9efc8e668d6d201</sys_id>
+        <sys_metadata>4ee35055c3e85710ba9c3342b4013112</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>.x_78515_globalte_0.employee</sys_name>
+        <sys_package display_value="GlobalTech AI ITSM" source="x_78515_globalte_0">10a432ecc3e45310ba9c3342b40131f8</sys_package>
+        <sys_parent display_value="x_78515_globalte_0_ai_recommendation">50b3d815c3e85710ba9c3342b401316c</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="GlobalTech AI ITSM">10a432ecc3e45310ba9c3342b40131f8</sys_scope>
+        <sys_scope_delete display_value="">06f85294ddd0430e81a86212a9834191</sys_scope_delete>
+        <sys_update_name>sys_security_acl_role_4ee35055c3e85710ba9c3342b4013112</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_role_4ee35055c3e85710ba9c3342b4013112">46e35055c3e85710ba9c3342b4013119</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-11-13 08:16:58</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
