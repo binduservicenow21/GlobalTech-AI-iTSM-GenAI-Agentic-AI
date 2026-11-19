@@ -1,0 +1,69 @@
+(function executeRule(current, previous /*null when async*/) {
+
+if (!current.approval_status.changes()) {
+return;
+}
+
+var decision = current.getValue('approval_status');
+
+// Retrieve related AI Execution
+var execution = new GlideRecord(
+'x_78515_globalte_0_ai_execution'
+);
+
+if (!execution.get(
+current.getValue('related_execution')
+)) {
+gs.error('Related AI Execution not found.');
+return;
+}
+
+// Record the approval decision
+var output = execution.getValue('output_data') || '';
+
+output += '\nApproval Decision: ' + decision;
+output += '\nApproval Record: ' + current.getUniqueValue();
+output += '\nDecision Time: ' + new GlideDateTime();
+
+execution.setValue('output_data', output);
+
+if (decision == 'rejected' ||
+decision == 'cancelled') {
+
+execution.setValue('execution_status', 'cancelled');
+
+} else if (decision == 'approved') {
+
+execution.setValue(
+'execution_status',
+'waiting_for_approval'
+);
+
+} else {
+return;
+}
+
+execution.update();
+
+// Create AI Audit Log
+var auditService = new AIAuditService();
+
+auditService.logAction({
+executionId: execution.getUniqueValue(),
+agentName: 'AI Governance Agent',
+actionType: decision == 'approved' ?
+'approval_granted' : 'approval_rejected',
+targetTable: 'x_78515_globalte_0_ai_approval',
+targetRecord: current.getUniqueValue(),
+beforeValue: 'requested',
+afterValue: decision,
+result: decision == 'approved' ? 'success' : 'failure'
+});
+
+gs.info(
+'AI approval decision processed: ' +
+decision
+);
+
+})(current, previous);
+
